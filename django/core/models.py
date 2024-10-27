@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 class Video(models.Model):
     title = models.CharField(max_length=100, unique=True, verbose_name='Título')
@@ -20,11 +22,24 @@ class Video(models.Model):
     def __str__(self):
         return self.title
     
+    def save(self, force_insert = ..., force_update = ..., using = ..., update_fields = ...):
+        if self.is_published and not self.published_at:
+            self.published_at = timezone.now()
+        return super().save(force_insert, force_update, using, update_fields)
+    
+    def clean(self):
+        if self.is_published:
+            if not hasattr(self, 'video_media'):
+                raise ValidationError('O vídeo não possui uma mídia associada.')
+            if self.video_media.status != VideoMedia.Status.PROCESS_FINISHED:
+                raise ValidationError('O vídeo não foi processado.')
+        return super().clean()
+    
     def get_video_status_display(self):
         if not hasattr(self, 'video_media'):
             return 'Pendente'
         return self.video_media.get_status_display()
-    
+
 
 class VideoMedia(models.Model):
 
