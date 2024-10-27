@@ -1,0 +1,26 @@
+###
+GET http://localhost:8000/api/videos?q=video 1
+
+###
+GET http://localhost:8000/api/videos/1
+
+###
+GET http://localhost:8000/api/videos/video-1
+
+###
+GET http://localhost:8000/api/videos/1/recommended
+
+###
+GET http://localhost:8000/api/videos/1/likes
+
+###
+GET http://localhost:8000/api/videos/1/views
+
+###
+PUT http://localhost:8000/api/videos/1/like
+
+###
+PUT http://localhost:8000/api/videos/1/unlike
+
+###
+PUT http://localhost:8000/api/videos/1/register-view

@@ -1,4 +1,5 @@
 FROM python:3.12.5-slim
+
 USER root
 
 ENV PYTHONDONTWRITEBYTECODE 1
